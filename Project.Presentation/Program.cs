@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Project.BLL.Services;
+using Project.BLL.Services.Contracts;
 using Project.DAL.Data;
+using Project.DAL.Data.Repositories;
+using Project.DAL.Data.Repositories.Contracts;
 
 namespace Project.Presentation
 {
@@ -15,6 +19,8 @@ namespace Project.Presentation
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
             }); // to register dbcontext and dbcontextOptions
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();

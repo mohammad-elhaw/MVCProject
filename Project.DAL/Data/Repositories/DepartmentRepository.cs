@@ -15,19 +15,19 @@ namespace Project.DAL.Data.Repositories
     {
         private readonly AppDbContext _appDbContext = appDbContext;
 
-        public void AddDepartment(Department entity)
+        public int AddDepartment(Department entity)
         {
             _appDbContext.Departments.Add(entity);
-            _appDbContext.SaveChanges();
+            return _appDbContext.SaveChanges();
         }
 
-        public void DeleteDepartment(Department entity)
+        public int DeleteDepartment(Department entity)
         {
             _appDbContext.Departments.Remove(entity);
-            _appDbContext.SaveChanges();
+            return _appDbContext.SaveChanges();
         }
 
-        public Department GetDepartment(int id) =>
+        public Department GetDepartment(int id, bool withTrack) =>
             _appDbContext.Departments.Find(id);
 
         public IEnumerable<Department> GetDepartments(bool withTrack)
@@ -43,5 +43,7 @@ namespace Project.DAL.Data.Repositories
             _appDbContext.Departments.Update(entity);
             _appDbContext.SaveChanges();
         }
+
+        public int Save() => _appDbContext.SaveChanges();
     }
 }

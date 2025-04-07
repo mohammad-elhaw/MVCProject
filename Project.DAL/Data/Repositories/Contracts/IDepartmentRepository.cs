@@ -10,9 +10,10 @@ namespace Project.DAL.Data.Repositories.Contracts
     public interface IDepartmentRepository
     {
         IEnumerable<Department> GetDepartments(bool withTrack);
-        Department GetDepartment(int id);
+        Department GetDepartment(int id, bool withTrack);
         void UpdateDepartment(Department entity);
-        void DeleteDepartment(Department entity);
-        void AddDepartment(Department entity);
+        int DeleteDepartment(Department entity);
+        int AddDepartment(Department entity);
+        int Save();
     }
 }
