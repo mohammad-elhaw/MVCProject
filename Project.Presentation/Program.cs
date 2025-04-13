@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Project.BLL.Services;
 using Project.BLL.Services.Contracts;
 using Project.DAL.Data;
-using Project.DAL.Data.Repositories;
-using Project.DAL.Data.Repositories.Contracts;
+using Project.DAL.Repositories;
+using Project.DAL.Repositories.Contracts;
 
 namespace Project.Presentation
 {

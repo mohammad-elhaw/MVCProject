@@ -1,7 +1,7 @@
 ﻿using Project.BLL.DTO.Department;
 using Project.BLL.Factories;
 using Project.BLL.Services.Contracts;
-using Project.DAL.Data.Repositories.Contracts;
+using Project.DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

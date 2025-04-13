@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.DAL.Entities
+namespace Project.DAL.Entities.Shared
 {
     public abstract class BaseEntity
     {
