@@ -80,7 +80,8 @@ namespace Project.Presentation.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // action filter to verify the token that the browser send it (Verification_token) to ensure
+        // only accept request from the browser that created the Verfication_token with the form
         public IActionResult Edit([FromRoute]int? id, DepartmentEditViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -106,6 +107,33 @@ namespace Project.Presentation.Controllers
                 else _logger.LogError(ex.Message);
             }
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+                bool deleted = _departmentService.DeleteDepartment(id);
+                if (deleted) return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "Department Not deleted");
+                return RedirectToAction(nameof(Delete), new { id = id });
+            }
+            catch(Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return View("ErrorView", ex);
+                }
+            }
+
         }
     }
 }

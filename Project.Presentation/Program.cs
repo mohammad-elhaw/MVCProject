@@ -20,7 +20,9 @@ namespace Project.Presentation
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
             }); // to register dbcontext and dbcontextOptions
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();

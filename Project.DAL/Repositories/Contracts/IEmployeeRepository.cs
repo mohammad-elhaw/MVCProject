@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Project.DAL.Repositories.Contracts
 {
-    public interface IEmployeeRepository : IGenericRepository<Employee>
+    public interface IEmployeeRepository
     {
-
+        public void AddEmployee(Employee employee);
+        public void RemoveEmployee(Employee employee);
+        public Employee GetEmployee(int id, bool withTrack = false);
+        public IEnumerable<Employee> GetEmployees(bool withTrack = false);
+        public int Save();
     }
 }

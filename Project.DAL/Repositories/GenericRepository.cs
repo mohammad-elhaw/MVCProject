@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Project.DAL.Data;
 using Project.DAL.Entities;
 using Project.DAL.Entities.Shared;
@@ -6,42 +7,37 @@ using Project.DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Project.DAL.Repositories
 {
-    public class GenericRepository<TEntity>(AppDbContext _appDbContext) : IGenericRepository<TEntity> where TEntity : BaseEntity
+    public abstract class GenericRepository<TEntity>(AppDbContext _appDbContext) : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        public int Add(TEntity entity)
+        public void Add(TEntity entity) => _appDbContext.Set<TEntity>().Add(entity);
+        public void Update(TEntity entity) => _appDbContext.Set<TEntity>().Update(entity);
+        public void Delete(TEntity entity) => _appDbContext.Set<TEntity>().Remove(entity);
+
+        public IEnumerable<TEntity> GetAll(bool withTrack) =>
+            !withTrack?
+                _appDbContext.Set<TEntity>().AsNoTracking() :
+                _appDbContext.Set<TEntity>();
+
+        public IEnumerable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression, bool withTrack)
         {
-            _appDbContext.Set<TEntity>().Add(entity);
-            return _appDbContext.SaveChanges();
+            var localEntities = _appDbContext.Set<TEntity>()
+                .Local.Where(expression.Compile())
+                .ToList();
+
+            if(localEntities.Any()) return localEntities;
+            
+            return !withTrack ?
+                _appDbContext.Set<TEntity>().Where(expression).AsNoTracking() :
+                _appDbContext.Set<TEntity>().Where(expression);
+
         }
-
-        public int Delete(TEntity entity)
-        {
-            _appDbContext.Set<TEntity>().Remove(entity);
-            return _appDbContext.SaveChanges();
-        }
-
-        public TEntity GetByID(int id, bool withTrack) =>
-            _appDbContext.Set<TEntity>().Find(id);
-
-        public IEnumerable<TEntity> GetAll(bool withTrack)
-        {
-            if (withTrack)
-                return _appDbContext.Set<TEntity>().ToList();
-
-            return _appDbContext.Set<TEntity>().AsNoTracking().ToList();
-        }
-
-        public void Update(TEntity entity)
-        {
-            _appDbContext.Set<TEntity>().Update(entity);
-            _appDbContext.SaveChanges();
-        }
-
         public int Save() => _appDbContext.SaveChanges();
+
     }
 }

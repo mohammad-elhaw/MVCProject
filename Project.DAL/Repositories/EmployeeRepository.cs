@@ -9,8 +9,16 @@ using System.Threading.Tasks;
 
 namespace Project.DAL.Repositories
 {
-    public class EmployeeRepository(AppDbContext appDbContext) :GenericRepository<Employee>(appDbContext), IEmployeeRepository
+    public class EmployeeRepository(AppDbContext appDbContext) : GenericRepository<Employee>(appDbContext), IEmployeeRepository
     {
+        public void AddEmployee(Employee employee) => Add(employee);
 
+        public Employee GetEmployee(int id, bool withTrack = false) =>
+            GetByCondition(e => e.Id == id, withTrack).SingleOrDefault();
+
+        public IEnumerable<Employee> GetEmployees(bool withTrack = false) =>
+            GetByCondition(e=>e.IsDeleted == false ,withTrack).ToList();
+
+        public void RemoveEmployee(Employee employee) => Delete(employee);
     }
 }

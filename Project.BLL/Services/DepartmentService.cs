@@ -35,8 +35,11 @@ namespace Project.BLL.Services
             };
         }
 
-        public int AddDepartment(DepartmentForCreationDto departmentDto) =>
+        public int AddDepartment(DepartmentForCreationDto departmentDto)
+        {
             _departmentRepository.AddDepartment(departmentDto.ToDepartment());
+            return _departmentRepository.Save();
+        }
 
         // Using this way to update to update only properties that changed
         public bool UpdateDepartment(int deptId, DepartmentForUpdateDto departmentDto, bool withTrack)
@@ -54,10 +57,11 @@ namespace Project.BLL.Services
 
         public bool DeleteDepartment(int deptId)
         {
-            var department = _departmentRepository.GetDepartment(deptId, withTrack: false);
+            var department = _departmentRepository.GetDepartment(deptId, withTrack: true);
             if (department is null) return false;
-
-            return _departmentRepository.DeleteDepartment(department) > 0;
+            department.IsDeleted = true;
+            int result = _departmentRepository.Save();
+            return result > 0;
         }
 
     }
