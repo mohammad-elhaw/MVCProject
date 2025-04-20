@@ -20,7 +20,7 @@ namespace Project.BLL.Factories
                 DataOfCreation = DateOnly.FromDateTime(department.CreatedOn.GetValueOrDefault())
             };
 
-        public static Department ToDepartment(this DepartmentManipulationDto departmentDto) =>
+        public static Department ToDepartment(this DepartmentForManipulationDto departmentDto) =>
             new Department()
             {
                 Code = departmentDto.Code,

@@ -15,6 +15,9 @@ namespace Project.Presentation.Controllers
         public IActionResult Index()
         {
             var employees = _service.GetAllEmployees();
+            // Binding through view's dictionary => transfer data from Action to View
+            // 1. ViewData
+            // 2. ViewBag
             return View(employees);
         }
 
@@ -30,7 +33,12 @@ namespace Project.Presentation.Controllers
                 try
                 {
                     int result = _service.CreateEmployee(employeeDto);
-                    if (result > 0) return RedirectToAction(nameof(Index));
+                    // TempData => to send information from the current request to subsequent request
+                    if (result > 0)
+                    {
+                        TempData["Message"] = "Employee Created Successfully";
+                        return RedirectToAction(nameof(Index));
+                    }
                     ModelState.AddModelError(string.Empty, "Can't Create Employee");
                 }
                 catch (Exception ex)
@@ -84,7 +92,11 @@ namespace Project.Presentation.Controllers
             try
             {
                 bool result = _service.UpdateEmployee(id.Value, employeeDto);
-                if (result) return RedirectToAction(nameof(Index));
+                if (result)
+                {
+                    TempData["Message"] = "Employee Updated Successfully";
+                    return RedirectToAction(nameof(Index));
+                }
                 ModelState.AddModelError(string.Empty, "Employee Can't be Updated");
             }
             catch(Exception ex)
