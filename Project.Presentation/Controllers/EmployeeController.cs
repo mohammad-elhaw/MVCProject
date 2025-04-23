@@ -11,9 +11,9 @@ namespace Project.Presentation.Controllers
         IWebHostEnvironment _environment,
         ILogger<EmployeeController> _logger) : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var employees = _service.GetAllEmployees();
+            var employees = _service.GetAllEmployees(EmployeeSearchName);
             // Binding through view's dictionary => transfer data from Action to View
             // 1. ViewData
             // 2. ViewBag

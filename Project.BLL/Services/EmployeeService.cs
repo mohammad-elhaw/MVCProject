@@ -3,11 +3,6 @@ using Project.BLL.Factories;
 using Project.BLL.Services.Contracts;
 using Project.DAL.Entities.EmployeeEntity;
 using Project.DAL.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.BLL.Services
 {
@@ -30,9 +25,9 @@ namespace Project.BLL.Services
             return result > 0;
         }
 
-        public IEnumerable<EmployeeDto> GetAllEmployees(bool withTrack = false)
+        public IEnumerable<EmployeeDto> GetAllEmployees(string? SearchByName, bool withTrack = false)
         {
-            var employees = _employeeRepository.GetEmployees(withTrack);
+            var employees = _employeeRepository.GetEmployees(SearchByName, withTrack);
             return employees.Select(e => e.ToEmployeeDto());
         }
 
