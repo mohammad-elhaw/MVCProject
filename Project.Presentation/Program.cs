@@ -18,6 +18,7 @@ namespace Project.Presentation
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
+                options.UseLazyLoadingProxies();
             }); // to register dbcontext and dbcontextOptions
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();

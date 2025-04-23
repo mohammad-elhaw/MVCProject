@@ -24,5 +24,6 @@ namespace Project.BLL.DTO.Employee
         public string Gender { get; init; }
         [Display(Name = "Employee Type")]
         public string EmployeeType { get; init; }
+        public string? Department { get; init; }
     }
 }

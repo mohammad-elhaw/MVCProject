@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project.BLL.DTO.Department;
 using Project.BLL.DTO.Employee;
 using Project.BLL.Services.Contracts;
 using Project.DAL.Entities.EmployeeEntity;
@@ -22,7 +21,11 @@ namespace Project.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create() => View();
+        public IActionResult Create([FromServices] IDepartmentService departmentService)
+        {
+            ViewData["Departments"] = departmentService.GetAllDepartments(withTrack: false);
+            return View();
+        } 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,11 +65,12 @@ namespace Project.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id, [FromServices] IDepartmentService departmentService)
         {
             if (!id.HasValue) return BadRequest();
             var employee = _service.GetEmployeeById(id.Value);
             if(employee is null) return NotFound();
+            ViewData["Departments"] = departmentService.GetAllDepartments(withTrack: false);
             var employeeDto = new EmployeeForUpdateDto()
             {
                 Name = employee.Name,
@@ -78,7 +82,8 @@ namespace Project.Presentation.Controllers
                 Phone = employee.PhoneNumber,
                 Salary = employee.Salary,
                 EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType),
-                Gender = Enum.Parse<Gender>(employee.Gender)
+                Gender = Enum.Parse<Gender>(employee.Gender),
+                DepartmentId = employee.DepartmentId
             };
             return View(employeeDto);
         }
