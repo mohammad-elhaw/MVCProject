@@ -31,7 +31,10 @@ namespace Project.Presentation.Controllers
                 {
                     int result = _departmentService.AddDepartment(department);
                     if (result > 0)
+                    {
+                        TempData["Message"] = "Department Created Successfully";
                         return RedirectToAction(nameof(Index));
+                    }
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Department can't be Created");
@@ -69,34 +72,31 @@ namespace Project.Presentation.Controllers
             if (!id.HasValue) return BadRequest();
             var department = _departmentService.GetDepartmentById(id.Value, withTrack: true);
             if(department is null) return NotFound();
-            var departmentViewModel = new DepartmentEditViewModel()
+            var departmentDto = new DepartmentForUpdateDto()
             {
                 Code = department.Code,
                 Name = department.Name,
                 Description = department.Description,
                 DateOfCreation = department.CreatedOn
             };
-            return View(departmentViewModel);
+            return View(departmentDto);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken] // action filter to verify the token that the browser send it (Verification_token) to ensure
         // only accept request from the browser that created the Verfication_token with the form
-        public IActionResult Edit([FromRoute]int? id, DepartmentEditViewModel viewModel)
+        public IActionResult Edit([FromRoute]int? id, DepartmentForUpdateDto departmentDto)
         {
             if (!ModelState.IsValid)
-                return View(viewModel);
+                return View(departmentDto);
             try
             {
-                var updatedDepartment = new DepartmentForUpdateDto()
+                bool result = _departmentService.UpdateDepartment(id.Value, departmentDto, withTrack: true);
+                if (result)
                 {
-                    Code = viewModel.Code,
-                    Description = viewModel.Description,
-                    Name = viewModel.Name,
-                    DateOfCreation = viewModel.DateOfCreation
-                };
-                bool result = _departmentService.UpdateDepartment(id.Value, updatedDepartment, withTrack: true);
-                if (result) return RedirectToAction(nameof(Index));
+                    TempData["Message"] = "Department Updated Successfully";
+                    return RedirectToAction(nameof(Index));
+                }
                 else
                     ModelState.AddModelError(string.Empty, "Department can't be updated");
             }
@@ -106,7 +106,7 @@ namespace Project.Presentation.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 else _logger.LogError(ex.Message);
             }
-            return View(viewModel);
+            return View(departmentDto);
         }
 
         [HttpPost]

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Project.BLL.DTO.Department
 {
-    public record DepartmentForUpdateDto : DepartmentManipulationDto;
+    public record DepartmentForUpdateDto : DepartmentForManipulationDto;
 }

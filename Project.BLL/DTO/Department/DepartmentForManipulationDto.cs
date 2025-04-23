@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project.BLL.DTO.Department
 {
-    public abstract record DepartmentManipulationDto
+    public abstract record DepartmentForManipulationDto
     {
         [Required(ErrorMessage ="Name is Required")]
         public string Name { get; init; }
