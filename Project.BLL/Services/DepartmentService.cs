@@ -2,26 +2,21 @@
 using Project.BLL.Factories;
 using Project.BLL.Services.Contracts;
 using Project.DAL.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.BLL.Services
 {
-    public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
+    public class DepartmentService(IRepositoryManager repository) : IDepartmentService
     {
 
         public IEnumerable<DepartmentDto> GetAllDepartments(bool withTrack)
         {
-            var departments = _departmentRepository.GetDepartments(withTrack);
+            var departments = repository.Department.GetDepartments(withTrack);
             return departments.Select(d => d.ToDepartmentDto()); // extension method mapping
         }
 
         public DepartmentDetailsDto? GetDepartmentById(int id, bool withTrack)
         {
-            var department = _departmentRepository.GetDepartment(id, withTrack);
+            var department = repository.Department.GetDepartment(id, withTrack);
             return department is null ? null : new DepartmentDetailsDto() // manual mapping
             {
                 Id = id,
@@ -37,30 +32,30 @@ namespace Project.BLL.Services
 
         public int AddDepartment(DepartmentForCreationDto departmentDto)
         {
-            _departmentRepository.AddDepartment(departmentDto.ToDepartment());
-            return _departmentRepository.Save();
+            repository.Department.AddDepartment(departmentDto.ToDepartment());
+            return repository.SaveChanges();
         }
 
         // Using this way to update to update only properties that changed
         public bool UpdateDepartment(int deptId, DepartmentForUpdateDto departmentDto, bool withTrack)
         {
-            var department = _departmentRepository.GetDepartment(deptId, withTrack);
+            var department = repository.Department.GetDepartment(deptId, withTrack);
             if (department is null) return false;
 
             department.Code = departmentDto.Code;
             department.Name = departmentDto.Name;
             department.Description = departmentDto.Description;
             department.CreatedOn = departmentDto.DateOfCreation?.ToDateTime(new TimeOnly());
-            int saved = _departmentRepository.Save();
+            int saved = repository.SaveChanges();
             return saved > 0;
         }
 
         public bool DeleteDepartment(int deptId)
         {
-            var department = _departmentRepository.GetDepartment(deptId, withTrack: true);
+            var department = repository.Department.GetDepartment(deptId, withTrack: true);
             if (department is null) return false;
             department.IsDeleted = true;
-            int result = _departmentRepository.Save();
+            int result = repository.SaveChanges();
             return result > 0;
         }
 

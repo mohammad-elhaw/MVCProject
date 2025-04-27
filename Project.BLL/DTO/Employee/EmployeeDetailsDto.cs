@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Project.BLL.DTO.Employee
+﻿namespace Project.BLL.DTO.Employee
 {
     public record EmployeeDetailsDto
     {
@@ -23,5 +17,6 @@ namespace Project.BLL.DTO.Employee
         public DateTime? CreatedOn { get; init; }
         public int LastModifiedBy { get; init; }
         public DateTime? LastModifiedOn { get; init; }
+        public int? DepartmentId { get; init; }
     }
 }

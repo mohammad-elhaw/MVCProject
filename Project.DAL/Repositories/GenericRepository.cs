@@ -1,15 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Project.DAL.Data;
-using Project.DAL.Entities;
 using Project.DAL.Entities.Shared;
 using Project.DAL.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.DAL.Repositories
 {

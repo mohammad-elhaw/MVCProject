@@ -1,11 +1,5 @@
-﻿using Project.DAL.Entities;
-using Project.DAL.Entities.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Project.DAL.Entities.Shared;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.DAL.Repositories.Contracts
 {
@@ -16,6 +10,5 @@ namespace Project.DAL.Repositories.Contracts
         void Update(TEntity entity);
         void Delete(TEntity entity);
         void Add(TEntity entity);
-        int Save();
     }
 }
