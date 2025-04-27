@@ -25,6 +25,11 @@ namespace Project.DAL.Data.Configurations
                 .HasConversion((EmpType)=> EmpType.ToString(),
                 (_type)=> (EmployeeType)Enum.Parse(typeof(EmployeeType), _type));
 
+            builder.HasOne(e => e.Department)
+                .WithMany(d => d.Employees)
+                .HasForeignKey(e => e.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             base.Configure(builder);
         }
     }

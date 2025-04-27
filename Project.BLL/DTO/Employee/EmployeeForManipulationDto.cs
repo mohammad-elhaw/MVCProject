@@ -33,5 +33,7 @@ namespace Project.BLL.DTO.Employee
         public DateOnly HiringDate { get; init; }
         public Gender Gender { get; init; }
         public EmployeeType EmployeeType { get; init; }
+        [Display(Name = "Department")]
+        public int? DepartmentId { get; init; }
     }
 }

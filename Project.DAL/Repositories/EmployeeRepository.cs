@@ -1,11 +1,6 @@
 ﻿using Project.DAL.Data;
 using Project.DAL.Entities.EmployeeEntity;
 using Project.DAL.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.DAL.Repositories
 {
@@ -16,8 +11,10 @@ namespace Project.DAL.Repositories
         public Employee GetEmployee(int id, bool withTrack = false) =>
             GetByCondition(e => e.Id == id, withTrack).SingleOrDefault();
 
-        public IEnumerable<Employee> GetEmployees(bool withTrack = false) =>
-            GetByCondition(e=>e.IsDeleted == false ,withTrack).ToList();
+        public IEnumerable<Employee> GetEmployees(string? SearchByName, bool withTrack = false) =>
+            GetByCondition(e =>
+                (e.IsDeleted == false)  && 
+                (string.IsNullOrWhiteSpace(SearchByName) || e.Name.ToLower().Contains(SearchByName.ToLower())), withTrack).ToList();
 
         public void RemoveEmployee(Employee employee) => Delete(employee);
     }

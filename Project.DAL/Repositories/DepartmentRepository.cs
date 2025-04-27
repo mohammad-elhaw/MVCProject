@@ -1,14 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Project.DAL.Data;
+﻿using Project.DAL.Data;
 using Project.DAL.Entities;
-using Project.DAL.Entities.EmployeeEntity;
 using Project.DAL.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.DAL.Repositories
 {
