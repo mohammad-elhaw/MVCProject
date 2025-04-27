@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Project.BLL.Common;
 using Project.BLL.Services;
 using Project.BLL.Services.Contracts;
 using Project.DAL.Data;
@@ -25,6 +26,7 @@ namespace Project.Presentation
             builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
