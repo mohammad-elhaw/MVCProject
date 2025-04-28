@@ -1,28 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Project.DAL.Data.Configurations;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Project.DAL.Entities;
 using Project.DAL.Entities.EmployeeEntity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Project.DAL.Entities.Identity;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.DAL.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<User>(options)
     {
-        // we make initialize to DbContextOptions because it execute DbContext.OnConfiguring
-        public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
-        {
-            
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Department> Departments { get; set; }
