@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.BLL.DTO.Employee;
 using Project.BLL.Services.Contracts;
 using Project.DAL.Entities.EmployeeEntity;
@@ -6,6 +7,7 @@ using Project.DAL.Entities.Shared.Enums;
 
 namespace Project.Presentation.Controllers
 {
+    [Authorize]
     public class EmployeeController(
         IEmployeeService _service, 
         IWebHostEnvironment _environment,

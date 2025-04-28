@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.BLL.DTO.Department;
 using Project.BLL.Services.Contracts;
-using Project.Presentation.ViewModels;
 
 namespace Project.Presentation.Controllers
 {
+    [Authorize]
     public class DepartmentController(
         IDepartmentService _departmentService, 
         ILogger<DepartmentController> _logger,
