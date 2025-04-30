@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Project.BLL.Common;
 using Project.BLL.Services;
 using Project.BLL.Services.Contracts;
 using Project.DAL.Data;
+using Project.DAL.Entities.Identity;
 using Project.DAL.Repositories;
 using Project.DAL.Repositories.Contracts;
 
@@ -25,7 +28,10 @@ namespace Project.Presentation
             builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             builder.Services.AddControllersWithViews();
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
 
@@ -42,11 +48,12 @@ namespace Project.Presentation
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Auth}/{action=Register}/{id?}");
 
             app.Run();
         }
